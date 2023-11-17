@@ -1,7 +1,7 @@
 [servers]
 timeapp ansible_host=10.0.2.5
 [timeapp]
-10.0.2.5 ansible_ssh_user=ness
+10.0.2.5 ansible_ssh_user='ness'
 [servers:vars]
 ansible_user='ness'
 ansible_password='ness' 
