@@ -1,5 +1,5 @@
 [servers]
-timeapp ansible_host=10.0.2.6
+timeapp ansible_host=10.0.2.5
 [servers:vars]
 ansible_user='root'
 ansible_password='devops' 
