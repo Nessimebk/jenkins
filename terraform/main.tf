@@ -8,7 +8,7 @@ resource "docker_image" "image" {
   count = var.tocount
   name = var.ct-image[count.index]
   build {
-    context = "/srv/checkout/app/."
+    context = "./app"
     dockerfile = "dockerfile"
     tag     = [var.ct-image[count.index]]
   }
