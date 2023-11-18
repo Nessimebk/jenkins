@@ -1,15 +1,44 @@
 terraform {
-  required_providers {
+ required_providers {
     docker = {
-      source  = "kreuzwerker/docker"
+      source = "kreuzwerker/docker"
       version = "3.0.2"
     }
-  }
+ }
 }
+
 provider "docker" {
-  #host     = "unix:///var/run/docker.sock"
-  host     = "ssh://root@10.0.2.5"
-  ssh_opts = ["-o", "StrictHostKeyChecking=no", "-o", "UserKnownHostsFile=/dev/null"]
+ host     = "ssh://root@10.0.2.5"
+ ssh_opts = ["-o", "StrictHostKeyChecking=no", "-o", "UserKnownHostsFile=/dev/null"]
+}
 
+resource "docker_image" "nginx" {
+ name         = "nginx:latest"
+ keep_locally = false
+}
 
+resource "docker_container" "nginx" {
+ image = docker_image.nginx.latest
+ name = "tutorial"
+ ports {
+    internal = 80
+    external = 8000
+ }
+}
+
+resource "null_resource" "example" {
+ depends_on = [docker_container.nginx]
+
+ provisioner "remote-exec" {
+    inline = [
+      "docker ps"
+    ]
+
+    connection {
+      type        = "ssh"
+      user        = "root"
+      host        = "10.0.2.5"
+      private_key = file("~/.ssh/id_rsa")
+    }
+ }
 }
