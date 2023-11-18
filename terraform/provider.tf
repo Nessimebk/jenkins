@@ -13,12 +13,12 @@ provider "docker" {
 }
 
 resource "docker_image" "nginx" {
- name         = "nginx:1.21"
+ name         = "nginx:latest"
  keep_locally = false
 }
 
 resource "docker_container" "nginx" {
- image = docker_image.nginx.1.21
+ image = docker_image.nginx.latest
  name = "tutorial"
  ports {
     internal = 80
